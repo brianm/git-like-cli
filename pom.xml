@@ -24,7 +24,7 @@
     <artifactId>cli</artifactId>
     <packaging>jar</packaging>
     <name>cli</name>
-    <version>0.3</version>
+    <version>0.4-SNAPSHOT</version>
 
     <description>Git-like-cli is a Java annotation-based framework for parsing Git like command line structures. Based on Dain Sundstrom's git-like-cli (http://github.com/dain/git-like-cli) </description>
     <url>https://github.com/brianm/git-like-cli</url>
