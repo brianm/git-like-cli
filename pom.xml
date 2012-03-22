@@ -18,7 +18,8 @@
 
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.skife.cli</groupId>
     <artifactId>cli</artifactId>
@@ -26,7 +27,9 @@
     <name>cli</name>
     <version>0.4-SNAPSHOT</version>
 
-    <description>Git-like-cli is a Java annotation-based framework for parsing Git like command line structures. Based on Dain Sundstrom's git-like-cli (http://github.com/dain/git-like-cli) </description>
+    <description>Git-like-cli is a Java annotation-based framework for parsing Git like command line structures. Based
+        on Dain Sundstrom's git-like-cli (http://github.com/dain/git-like-cli)
+    </description>
     <url>https://github.com/brianm/git-like-cli</url>
 
     <inceptionYear>2012</inceptionYear>
@@ -96,36 +99,30 @@
         </dependency>
     </dependencies>
 
-        <build>
+    <build>
         <plugins>
-        <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>1.5</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <artifactSet>
-                <excludes>
-                  <exclude>com.google.guava:guava</exclude>
-                  <exclude>javax.inject:javax.inject</exclude>
-                  <exclude>com.google.code.findbugs:jsr305</exclude>
-                </excludes>
-              </artifactSet>
-              <relocations>
-                <relocation>
-                  <pattern>org.iq80.cli</pattern>
-                  <shadedPattern>org.skife.cli.org.iq80.cli</shadedPattern>
-                </relocation>
-              </relocations>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>com.google.guava:guava</exclude>
+                                    <exclude>javax.inject:javax.inject</exclude>
+                                    <exclude>com.google.code.findbugs:jsr305</exclude>
+                                </excludes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
