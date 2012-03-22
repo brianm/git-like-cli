@@ -45,6 +45,23 @@ public class CommandTest
         Assert.assertEquals(add.patterns, Arrays.asList("A.java"));
     }
 
+    @Test
+    public void namedCommandTest1UsingAlias()
+    {
+        Cli<?> parser = Cli
+            .buildCli("git")
+            .withCommand(CommandAdd.class)
+            .withCommand(CommandCommit.class)
+            .build();
+
+        Object command = parser.parse("plus", "-i", "A.java");
+        Assert.assertNotNull(command, "command is null");
+        Assert.assertTrue(command instanceof CommandAdd);
+        CommandAdd add = (CommandAdd) command;
+        Assert.assertEquals(add.interactive.booleanValue(), true);
+        Assert.assertEquals(add.patterns, Arrays.asList("A.java"));
+    }
+
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void shouldComplainIfNoAnnotations()
     {

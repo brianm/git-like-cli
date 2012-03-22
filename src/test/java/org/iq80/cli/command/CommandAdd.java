@@ -25,7 +25,7 @@ import org.iq80.cli.Option;
 import javax.inject.Inject;
 import java.util.List;
 
-@Command(name = "add", description = "Add file contents to the index")
+@Command(name = {"add", "plus"}, description = "Add file contents to the index")
 public class CommandAdd
 {
     @Inject
