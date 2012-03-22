@@ -11,7 +11,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static org.iq80.cli.UsageHelper.DEFAULT_COMMAND_COMPARATOR;
 import static org.iq80.cli.UsageHelper.DEFAULT_OPTION_COMPARATOR;
 import static org.iq80.cli.UsageHelper.toSynopsisUsage;
 
@@ -65,7 +64,7 @@ public class CommandUsage
         out.newIndentedPrinter(8)
                 .append(programName)
                 .append(groupName)
-                .append(command.getName())
+                .append(command.getPrimaryName())
                 .append("-")
                 .append(command.getDescription())
                 .newline()
@@ -85,7 +84,7 @@ public class CommandUsage
             synopsis.append(groupName).appendWords(toSynopsisUsage(command.getGroupOptions()));
             options.addAll(command.getGroupOptions());
         }
-        synopsis.append(command.getName()).appendWords(toSynopsisUsage(command.getCommandOptions()));
+        synopsis.append(command.getPrimaryName()).appendWords(toSynopsisUsage(command.getCommandOptions()));
         options.addAll(command.getCommandOptions());
 
         // command arguments (optional)

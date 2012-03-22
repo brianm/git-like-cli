@@ -21,7 +21,7 @@ public class GlobalSuggester
     {
         return concat(
                 transform(metadata.getCommandGroups(), CommandGroupMetadata.nameGetter()),
-                transform(metadata.getDefaultGroupCommands(), CommandMetadata.nameGetter()),
+                transform(metadata.getDefaultGroupCommands(), CommandMetadata.primaryNameGetter()),
                 concat(transform(metadata.getOptions(), OptionMetadata.optionsGetter()))
         );
     }

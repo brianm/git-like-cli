@@ -43,8 +43,8 @@ public class UsageHelper
         public int compare(CommandMetadata o1, CommandMetadata o2)
         {
             return ComparisonChain.start()
-                    .compare(o1.getName().toLowerCase(), o2.getName().toLowerCase())
-                    .compare(o2.getName(), o1.getName()) // print lower case letters before upper case
+                    .compare(o1.getPrimaryName().toLowerCase(), o2.getPrimaryName().toLowerCase())
+                    .compare(o2.getPrimaryName(), o1.getPrimaryName()) // print lower case letters before upper case
                     .compare(System.identityHashCode(o1), System.identityHashCode(o2))
                     .result();
         }

@@ -106,7 +106,7 @@ public class CommandGroupUsage
                 }
             }
             synopsis.append(group.getName()).appendWords(UsageHelper.toSynopsisUsage(command.getGroupOptions()));
-            synopsis.append(command.getName()).appendWords(UsageHelper.toSynopsisUsage(command.getCommandOptions()));
+            synopsis.append(command.getPrimaryName()).appendWords(UsageHelper.toSynopsisUsage(command.getCommandOptions()));
             synopsis.newline();
         }
         synopsis.newline();
@@ -154,7 +154,7 @@ public class CommandGroupUsage
             }
 
             for (CommandMetadata command : group.getCommands()) {
-                commandPrinter.append(command.getName()).newline();
+                commandPrinter.append(command.getPrimaryName()).newline();
                 UsagePrinter descriptionPrinter = commandPrinter.newIndentedPrinter(4);
 
                 descriptionPrinter.append(command.getDescription()).newline().newline();

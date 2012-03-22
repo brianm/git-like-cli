@@ -10,7 +10,7 @@ import static com.google.common.collect.Iterables.concat;
 import static com.google.common.collect.Iterables.transform;
 
 public class GroupSuggester
-        implements Suggester
+    implements Suggester
 {
     @Inject
     public CommandGroupMetadata group;
@@ -18,9 +18,7 @@ public class GroupSuggester
     @Override
     public Iterable<String> suggest()
     {
-        return concat(
-                transform(group.getCommands(), CommandMetadata.nameGetter()),
-                concat(transform(group.getOptions(), OptionMetadata.optionsGetter()))
-        );
+        return concat(transform(group.getCommands(), CommandMetadata.primaryNameGetter()),
+                      concat(transform(group.getOptions(), OptionMetadata.optionsGetter())));
     }
 }

@@ -12,7 +12,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static org.iq80.cli.UsageHelper.DEFAULT_COMMAND_COMPARATOR;
 import static org.iq80.cli.UsageHelper.DEFAULT_OPTION_COMPARATOR;
 
 public class GlobalUsage
@@ -125,7 +124,7 @@ public class GlobalUsage
         if (group != null) {
             commandPrinter.append(group.getName());
         }
-        commandPrinter.append(command.getName()).newline();
+        commandPrinter.append(command.getPrimaryName()).newline();
         if (command.getDescription() != null) {
             commandPrinter.newIndentedPrinter(4).append(command.getDescription()).newline();
         }

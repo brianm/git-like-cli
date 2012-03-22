@@ -84,7 +84,7 @@ public class GlobalUsageSummary
 
         Map<String, String> commands = newTreeMap();
         for (CommandMetadata commandMetadata : global.getDefaultGroupCommands()) {
-            commands.put(commandMetadata.getName(), commandMetadata.getDescription());
+            commands.put(commandMetadata.getPrimaryName(), commandMetadata.getDescription());
         }
         for (CommandGroupMetadata commandGroupMetadata : global.getCommandGroups()) {
             commands.put(commandGroupMetadata.getName(), commandGroupMetadata.getDescription());

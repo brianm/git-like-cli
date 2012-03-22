@@ -75,7 +75,7 @@ public class CommandTest
     public void repeatedArgs()
     {
         Cli<Args1> parser = singleCommandParser(Args1.class);
-        CommandMetadata command = find(parser.getMetadata().getDefaultGroupCommands(), compose(equalTo("Args1"), CommandMetadata.nameGetter()));
+        CommandMetadata command = find(parser.getMetadata().getDefaultGroupCommands(), compose(equalTo("Args1"), CommandMetadata.primaryNameGetter()));
         Assert.assertEquals(command.getAllOptions().size(), 8);
     }
 
@@ -228,7 +228,7 @@ public class CommandTest
 
         int i = 0;
         for (CommandMetadata commandParser : commandParsers) {
-            Assert.assertEquals(commandParser.getName(), commandNames[i++]);
+            Assert.assertEquals(commandParser.getPrimaryName(), commandNames[i++]);
         }
     }
 

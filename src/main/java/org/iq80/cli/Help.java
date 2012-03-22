@@ -56,7 +56,7 @@ public class Help implements Runnable, Callable<Void>
 
         // command in the default group?
         for (CommandMetadata command : global.getDefaultGroupCommands()) {
-            if (name.equals(command.getName())) {
+            if (name.equals(command.getPrimaryName())) {
                 new CommandUsage().usage(global.getName(), null, command, out);
                 return;
             }
@@ -73,7 +73,7 @@ public class Help implements Runnable, Callable<Void>
                 else {
                     String commandName = commandNames.get(1);
                     for (CommandMetadata command : group.getCommands()) {
-                        if (commandName.equals(command.getName())) {
+                        if (commandName.equals(command.getNames())) {
                             new CommandUsage().usage(global.getName(), group.getName(), command, out);
                             return;
                         }

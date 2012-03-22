@@ -2,6 +2,7 @@ package org.iq80.cli;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.PeekingIterator;
 import org.iq80.cli.config.Configuration;
@@ -56,7 +57,17 @@ public class Parser
         }
 
         if (tokens.hasNext()) {
-            CommandMetadata command = find(expectedCommands, compose(equalTo(tokens.peek()), CommandMetadata.nameGetter()), null);
+
+
+            String nextToken = tokens.peek();
+            CommandMetadata command = null;
+            for (CommandMetadata candidate : expectedCommands) {
+                if (Iterables.any(candidate.getNames(), equalTo(nextToken))) {
+                    command = candidate;
+                    break;
+                }
+            }
+
             if (command != null) {
                 tokens.next();
                 state = state.withCommand(command).pushContext(Context.COMMAND);

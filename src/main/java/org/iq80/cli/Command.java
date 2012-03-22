@@ -36,7 +36,7 @@ public @interface Command
     /**
      * Name of the command.  Command name is split on white space to form a multi-word name.
      */
-    String name();
+    String[] name();
 
     /**
      * Description of the command.

@@ -29,10 +29,10 @@ import static com.google.common.collect.Maps.newHashMap;
 public class MetadataLoader
 {
     public static GlobalMetadata loadGlobal(String name,
-            String description,
-            CommandMetadata defaultCommand,
-            Iterable<CommandMetadata> defaultGroupCommands,
-            Iterable<CommandGroupMetadata> groups)
+                                            String description,
+                                            CommandMetadata defaultCommand,
+                                            Iterable<CommandMetadata> defaultGroupCommands,
+                                            Iterable<CommandGroupMetadata> groups)
     {
         ImmutableList.Builder<OptionMetadata> globalOptionsBuilder = ImmutableList.builder();
         if (defaultCommand != null) {
@@ -81,20 +81,19 @@ public class MetadataLoader
             command = cls.getAnnotation(Command.class);
         }
         Preconditions.checkArgument(command != null, "Command %s is not annotated with @Command", commandType.getName());
-        String name = command.name();
+        String[] names = command.name();
         String description = command.description().isEmpty() ? null : command.description();
 
         InjectionMetadata injectionMetadata = loadInjectionMetadata(commandType);
 
-        CommandMetadata commandMetadata = new CommandMetadata(
-                name,
-                description,
-                injectionMetadata.globalOptions,
-                injectionMetadata.groupOptions,
-                injectionMetadata.commandOptions,
-                Iterables.getFirst(injectionMetadata.arguments, null),
-                injectionMetadata.metadataInjections,
-                commandType);
+        CommandMetadata commandMetadata = new CommandMetadata(names,
+                                                              description,
+                                                              injectionMetadata.globalOptions,
+                                                              injectionMetadata.groupOptions,
+                                                              injectionMetadata.commandOptions,
+                                                              Iterables.getFirst(injectionMetadata.arguments, null),
+                                                              injectionMetadata.metadataInjections,
+                                                              commandType);
 
         return commandMetadata;
 
@@ -124,10 +123,12 @@ public class MetadataLoader
                 Inject injectAnnotation = field.getAnnotation(Inject.class);
                 if (injectAnnotation != null) {
                     if (field.getType().equals(GlobalMetadata.class) ||
-                            field.getType().equals(CommandGroupMetadata.class) ||
-                            field.getType().equals(CommandMetadata.class)) {
+                        field.getType().equals(CommandGroupMetadata.class) ||
+                        field.getType().equals(CommandMetadata.class))
+                    {
                         injectionMetadata.metadataInjections.add(new Accessor(path));
-                    } else {
+                    }
+                    else {
                         loadInjectionMetadata(field.getType(), injectionMetadata, path);
                     }
                 }
@@ -212,7 +213,8 @@ public class MetadataLoader
             metadataIndex.put(option, option);
         }
 
-        options = ImmutableList.copyOf(transform(metadataIndex.asMap().values(), new Function<Collection<OptionMetadata>, OptionMetadata>()
+        options = ImmutableList.copyOf(transform(metadataIndex.asMap()
+                                                              .values(), new Function<Collection<OptionMetadata>, OptionMetadata>()
         {
             @Override
             public OptionMetadata apply(@Nullable Collection<OptionMetadata> options)
@@ -226,9 +228,12 @@ public class MetadataLoader
             for (String optionName : option.getOptions()) {
                 if (optionIndex.containsKey(optionName)) {
                     throw new IllegalArgumentException(String.format("Fields %s and %s have conflicting definitions of option %s",
-                            optionIndex.get(optionName).getAccessors().iterator().next(),
-                            option.getAccessors().iterator().next(),
-                            optionName));
+                                                                     optionIndex.get(optionName)
+                                                                                .getAccessors()
+                                                                                .iterator()
+                                                                                .next(),
+                                                                     option.getAccessors().iterator().next(),
+                                                                     optionName));
                 }
                 optionIndex.put(optionName, option);
             }
@@ -244,11 +249,11 @@ public class MetadataLoader
 
     private static class InjectionMetadata
     {
-        private List<OptionMetadata> globalOptions = newArrayList();
-        private List<OptionMetadata> groupOptions = newArrayList();
-        private List<OptionMetadata> commandOptions = newArrayList();
-        private List<ArgumentsMetadata> arguments = newArrayList();
-        private List<Accessor> metadataInjections = newArrayList();
+        private List<OptionMetadata>    globalOptions      = newArrayList();
+        private List<OptionMetadata>    groupOptions       = newArrayList();
+        private List<OptionMetadata>    commandOptions     = newArrayList();
+        private List<ArgumentsMetadata> arguments          = newArrayList();
+        private List<Accessor>          metadataInjections = newArrayList();
 
         private void compact()
         {

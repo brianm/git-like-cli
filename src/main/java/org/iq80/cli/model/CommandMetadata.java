@@ -2,32 +2,36 @@ package org.iq80.cli.model;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Sets;
 import org.iq80.cli.Accessor;
 
-import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+
+import static com.google.common.collect.Iterables.getFirst;
 
 public class CommandMetadata
 {
-    private final String name;
-    private final String description;
+    private final Set<String> names;
+    private final String               description;
     private final List<OptionMetadata> globalOptions;
     private final List<OptionMetadata> groupOptions;
     private final List<OptionMetadata> commandOptions;
-    private final ArgumentsMetadata arguments;
-    private final List<Accessor> metadataInjections;
-    private final Class<?> type;
+    private final ArgumentsMetadata    arguments;
+    private final List<Accessor>       metadataInjections;
+    private final Class<?>             type;
 
-    public CommandMetadata(String name,
-            String description,
-            Iterable<OptionMetadata> globalOptions,
-            Iterable<OptionMetadata> groupOptions,
-            Iterable<OptionMetadata> commandOptions,
-            ArgumentsMetadata arguments,
-            Iterable<Accessor> metadataInjections,
-            Class<?> type)
+    public CommandMetadata(String[] name,
+                           String description,
+                           Iterable<OptionMetadata> globalOptions,
+                           Iterable<OptionMetadata> groupOptions,
+                           Iterable<OptionMetadata> commandOptions,
+                           ArgumentsMetadata arguments,
+                           Iterable<Accessor> metadataInjections,
+                           Class<?> type)
     {
-        this.name = name;
+        this.names =  Sets.newLinkedHashSet(Arrays.asList(name));
         this.description = description;
         this.globalOptions = ImmutableList.copyOf(globalOptions);
         this.groupOptions = ImmutableList.copyOf(groupOptions);
@@ -37,9 +41,14 @@ public class CommandMetadata
         this.type = type;
     }
 
-    public String getName()
+    public Set<String> getNames()
     {
-        return name;
+        return names;
+    }
+
+    public String getPrimaryName()
+    {
+        return getFirst(names, null);
     }
 
     public String getDescription()
@@ -49,7 +58,11 @@ public class CommandMetadata
 
     public List<OptionMetadata> getAllOptions()
     {
-        return ImmutableList.<OptionMetadata>builder().addAll(globalOptions).addAll(groupOptions).addAll(commandOptions).build();
+        return ImmutableList.<OptionMetadata>builder()
+                            .addAll(globalOptions)
+                            .addAll(groupOptions)
+                            .addAll(commandOptions)
+                            .build();
 
     }
 
@@ -88,7 +101,7 @@ public class CommandMetadata
     {
         final StringBuilder sb = new StringBuilder();
         sb.append("CommandMetadata");
-        sb.append("{name='").append(name).append('\'');
+        sb.append("{name='").append(names).append('\'');
         sb.append(", description='").append(description).append('\'');
         sb.append(", globalOptions=").append(globalOptions);
         sb.append(", groupOptions=").append(groupOptions);
@@ -100,14 +113,15 @@ public class CommandMetadata
         return sb.toString();
     }
 
-    public static Function<CommandMetadata, String> nameGetter()
+    public static Function<CommandMetadata, String> primaryNameGetter()
     {
         return new Function<CommandMetadata, String>()
         {
             public String apply(CommandMetadata input)
             {
-                return input.getName();
+                return input.getPrimaryName();
             }
         };
     }
+
 }
